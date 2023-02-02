@@ -87,6 +87,38 @@ app.put('/update-parent/:id', (req, res) => {
   }
 })
 
+app.get('/hierarchy', (req, res) => {
+  try {
+    const member = JSON.parse(fs.readFileSync(`${dirModel}/member.txt`, 'utf8'))
+    const sortedMember = member.sort((a,b) => b.level - a.level)
+    const hierarchy = []
+
+    sortedMember.map(each => {
+      if(each.level > 1) {
+        let indexParent = sortedMember.findIndex(({id}) => id == each.first_parent_id)
+        let arrChild = sortedMember[indexParent].arrChild || []
+        arrChild.push(each)
+        sortedMember[indexParent].arrChild = arrChild
+      } else {
+        hierarchy.push(each)
+      }
+    })
+
+    res.send(hierarchy)
+  } catch (err) {
+    res.send(err)
+  }
+})
+
+app.get('/members', (req, res) => {
+  const member = JSON.parse(fs.readFileSync(`${dirModel}/member.txt`, 'utf8'))
+  res.send(member)
+})
+
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname+'/index.html'));
+})
+
 app.listen(3000, async (req, res) => {
   await createData()
   console.log("Running on port 3000")
