@@ -1,1 +1,288 @@
-<h3>Simple Multi Level Marketing - Admin Panel</h3>
+<form name="cal" action="">
+  <h1 style="text-align: center; margin: 22px 0;">Simple Multi Level Marketing - Admin Panel</h1>
+  
+  <table id="Bonus" style="width: 100%; margin: 22px 0;">
+    <caption style="text-align: left; padding-left: 48px;">
+      <h3 style="margin: 4px;">Perhitungan Bonus</h3>
+    </caption>
+    <form>
+    <tbody
+      style="
+        display: flex;
+        justify-content: space-around;
+        align-items: flex-end;
+      "
+    >
+      <tr style="display: flex; flex-direction: column">
+        <td>
+          <select
+            style="
+              width: 220px;
+              padding: 6px;
+              margin: 6px 0px;
+              background: lightgray;
+              border-radius: 4px;
+            "
+            name="batchSelect"
+            onchange="myFunction(event)"
+          ><option>Select Member ID</option></select>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <input id="level" name="level" style="
+            width: 220px;
+            padding: 6px;
+            margin: 6px 0px;
+            background: lightgray;
+            border-radius: 4px;
+          " disabled>
+        </td>
+      </tr>
+      <tr>
+        <td>          
+          <button
+            style="
+              width: 220px;
+              height: 33px;
+              margin: auto;
+              background: #00aaee;
+              color: #fafafa;
+              border: none;
+              border-radius: 4px;
+              font-weight: bold;
+              margin-bottom: 5px;
+            "
+            type="submit"
+            form="nameform"
+            value="Submit"
+          >
+          Calculate = 
+          </button>
+        </td>
+      </tr>
+      <tr>
+        <td>          
+          <button
+            style="
+              width: 220px;
+              height: 33px;
+              margin: auto;
+              background: lightgray;
+              color: #000;
+              border: none;
+              border-radius: 4px;
+              font-weight: bold;
+              margin-bottom: 5px;
+            "
+            type="submit"
+            form="nameform"
+            value="Submit"
+          >
+          $$$
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </form>
+  </table>
+  <table id="Registrasi" style="width: 100%; margin: 22px 0;">
+    <caption style="text-align: left; padding-left: 48px;">
+      <h3 style="margin: 4px;">Registrasi ID Member Baru</h3>
+    </caption>
+    <tbody
+      style="
+        display: flex;
+        justify-content: space-around;
+        align-items: flex-end;
+      "
+    >
+      <tr style="display: flex; flex-direction: column">
+        <td>
+          <input id="level" name="level" style="
+            width: 220px;
+            padding: 6px;
+            margin: 6px 0px;
+            background: lightgray;
+            border-radius: 4px;
+          ">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <select
+            style="
+              width: 220px;
+              padding: 6px;
+              margin: 6px 0px;
+              background: lightgray;
+              border-radius: 4px;
+            "
+            name="batchSelect"
+            onchange="myFunction(event)"
+          ><option>Select Member ID</option></select>
+        </td>
+      </tr>
+      <tr>
+        <td>          
+          <button
+            style="
+              width: 220px;
+              height: 33px;
+              margin: auto;
+              background: #00aaee;
+              color: #fafafa;
+              border: none;
+              border-radius: 4px;
+              font-weight: bold;
+              margin-bottom: 5px;
+            "
+            type="submit"
+            form="nameform"
+            value="Submit"
+          >
+          Register
+          </button>
+        </td>
+      </tr>
+      <tr>
+        <td>          
+          <button
+            style="
+              width: 220px;
+              height: 33px;
+              margin: auto;
+              background: lightgray;
+              color: #000;
+              border: none;
+              border-radius: 4px;
+              font-weight: bold;
+              margin-bottom: 5px;
+            "
+            type="submit"
+            form="nameform"
+            value="Submit"
+          >
+          Member ID
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <table id="Migrasi" style="width: 100%; margin: 22px 0;">
+    <caption style="text-align: left; padding-left: 48px;">
+      <h3 style="margin: 4px;">Migrasi member/Pindah Parent</h3>
+    </caption>
+    <tbody
+      style="
+        display: flex;
+        justify-content: space-around;
+        align-items: flex-end;
+      "
+    >
+      <tr style="display: flex; flex-direction: column">
+        <td>
+          <select
+            style="
+              width: 220px;
+              padding: 6px;
+              margin: 6px 0px;
+              background: lightgray;
+              border-radius: 4px;
+            "
+            name="batchSelect"
+            onchange="myFunction(event)"
+          ><option>Select Member ID</option></select>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <select
+            style="
+              width: 220px;
+              padding: 6px;
+              margin: 6px 0px;
+              background: lightgray;
+              border-radius: 4px;
+            "
+            name="batchSelect"
+            onchange="myFunction(event)"
+          ><option>Pilih Parent</option></select>
+        </td>
+      </tr>
+      <tr>
+        <td>          
+          <button
+            style="
+              width: 220px;
+              height: 33px;
+              margin: auto;
+              background: #00aaee;
+              color: #fafafa;
+              border: none;
+              border-radius: 4px;
+              font-weight: bold;
+              margin-bottom: 5px;
+            "
+            type="submit"
+            form="nameform"
+            value="Submit"
+          >
+          Migrate
+          </button>
+        </td>
+      </tr>
+      <tr>
+        <td>          
+          <button
+            style="
+              width: 220px;
+              height: 33px;
+              margin: auto;
+              background: lightgray;
+              color: #000;
+              border: none;
+              border-radius: 4px;
+              font-weight: bold;
+              margin-bottom: 5px;
+            "
+            type="submit"
+            form="nameform"
+            value="Submit"
+          >
+          New Member ID
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+</form>
+
+<script>
+  const batchTrack = document.getElementsByName("batchSelect");
+  const getPost = async () => {
+    const response = await fetch("http://localhost:3000/members");
+    const data = await response.json();
+    return data;
+  };
+
+  const displayOption = async () => {
+    const options = await getPost();
+
+    for(each of batchTrack) {
+      for (option of options) {
+        const newOption = document.createElement("option");
+        newOption.value = `${option.level}-${option.name}-${option.id}`;
+        newOption.text = option.name;
+        each.appendChild(newOption)
+      }
+    }
+  };
+
+  displayOption();
+  function myFunction(event) {
+    let value = event.target.value;
+    document.getElementById("level").value = value.split("-")[0];
+  }
+</script>
