@@ -56,6 +56,7 @@
             type="submit"
             form="nameform"
             value="Submit"
+            id="Calculate"
           >
           Calculate = 
           </button>
@@ -63,24 +64,13 @@
       </tr>
       <tr>
         <td>          
-          <button
-            style="
-              width: 220px;
-              height: 33px;
-              margin: auto;
-              background: lightgray;
-              color: #000;
-              border: none;
-              border-radius: 4px;
-              font-weight: bold;
-              margin-bottom: 5px;
-            "
-            type="submit"
-            form="nameform"
-            value="Submit"
-          >
-          $$$
-          </button>
+          <input id="resultCalculate" style="
+            width: 220px;
+            padding: 6px;
+            margin: 6px 0px;
+            background: lightgray;
+            border-radius: 4px;
+          " disabled value="$$$">
         </td>
       </tr>
     </tbody>
@@ -99,13 +89,13 @@
     >
       <tr style="display: flex; flex-direction: column">
         <td>
-          <input id="level" name="level" style="
+          <input id="initialMember" style="
             width: 220px;
             padding: 6px;
             margin: 6px 0px;
             background: lightgray;
             border-radius: 4px;
-          ">
+          " placeholder="Inisial Member Baru">
         </td>
       </tr>
       <tr>
@@ -119,8 +109,7 @@
               border-radius: 4px;
             "
             name="batchSelect"
-            onchange="myFunction(event)"
-          ><option>Select Member ID</option></select>
+          ><option>Pilih Parent</option></select>
         </td>
       </tr>
       <tr>
@@ -140,6 +129,7 @@
             type="submit"
             form="nameform"
             value="Submit"
+            id="Register"
           >
           Register
           </button>
@@ -147,24 +137,13 @@
       </tr>
       <tr>
         <td>          
-          <button
-            style="
-              width: 220px;
-              height: 33px;
-              margin: auto;
-              background: lightgray;
-              color: #000;
-              border: none;
-              border-radius: 4px;
-              font-weight: bold;
-              margin-bottom: 5px;
-            "
-            type="submit"
-            form="nameform"
-            value="Submit"
-          >
-          Member ID
-          </button>
+          <input id="resultRegister" style="
+          width: 220px;
+          padding: 6px;
+          margin: 6px 0px;
+          background: lightgray;
+          border-radius: 4px;
+        " disabled value="Member ID">
         </td>
       </tr>
     </tbody>
@@ -191,7 +170,7 @@
               border-radius: 4px;
             "
             name="batchSelect"
-            onchange="myFunction(event)"
+            onchange="filterParent(event)"
           ><option>Select Member ID</option></select>
         </td>
       </tr>
@@ -205,8 +184,7 @@
               background: lightgray;
               border-radius: 4px;
             "
-            name="batchSelect"
-            onchange="myFunction(event)"
+            id="batchParent"
           ><option>Pilih Parent</option></select>
         </td>
       </tr>
@@ -227,6 +205,7 @@
             type="submit"
             form="nameform"
             value="Submit"
+            id="Migrate"
           >
           Migrate
           </button>
@@ -234,24 +213,13 @@
       </tr>
       <tr>
         <td>          
-          <button
-            style="
-              width: 220px;
-              height: 33px;
-              margin: auto;
-              background: lightgray;
-              color: #000;
-              border: none;
-              border-radius: 4px;
-              font-weight: bold;
-              margin-bottom: 5px;
-            "
-            type="submit"
-            form="nameform"
-            value="Submit"
-          >
-          New Member ID
-          </button>
+          <input id="resultMigrate" style="
+          width: 220px;
+          padding: 6px;
+          margin: 6px 0px;
+          background: lightgray;
+          border-radius: 4px;
+        " disabled value="New Member ID">
         </td>
       </tr>
     </tbody>
@@ -285,4 +253,93 @@
     let value = event.target.value;
     document.getElementById("level").value = value.split("-")[0];
   }
+
+  const batchParent = document.getElementById("batchParent");
+
+  async function filterParent(event) {
+    let value = event.target.value;
+    const result = await fetch("http://localhost:3000/parent/filter/"+value.split("-")[2]);
+    let resultJson = await result.json()
+    batchParent.innerHTML = "";
+    const newOption = document.createElement("option");
+      newOption.value = 'Pilih Parent'
+      newOption.text = 'Pilih Parent'
+      batchParent.appendChild(newOption)
+
+    if(value.split("-")[2]) {
+      for (option of resultJson) {
+        const newOption = document.createElement("option");
+        newOption.value = `${option.level}-${option.name}-${option.id}`;
+        newOption.text = option.name;
+        batchParent.appendChild(newOption)
+      }
+    }
+  }
+
+  //Calculate Data
+  const btnCalculate = document.getElementById("Calculate");
+  const resultCalculate = document.getElementById("resultCalculate");
+
+  btnCalculate.addEventListener("click",  async function() {
+    const selectedOption = batchTrack[0].value
+    if(selectedOption == 'Select Member ID') {
+      resultCalculate.value = "$$$"
+    } else {
+      const id = selectedOption.split("-")[2]
+      const result = await fetch("http://localhost:3000/calculate/"+id);
+      const resultJson = await result.json()
+      resultCalculate.value = resultJson.bonus
+    }
+  });
+
+  //Register Member
+  const btnRegister = document.getElementById("Register");
+  const resultRegister = document.getElementById("resultRegister");
+
+  btnRegister.addEventListener("click", async function () {
+    const selectedOption = batchTrack[1].value
+    const initialMember = document.getElementById("initialMember").value;
+    if(initialMember == '') {
+      resultRegister.value = "Member Id"
+    } else {
+      const parentId = selectedOption.split("-")[2]
+      const result = await fetch('http://localhost:3000/register'+ (selectedOption == 'Pilih Parent' ? '' : '?id='+parentId), {
+        method: 'POST',
+        body: JSON.stringify({
+          name: initialMember,
+          member_id: selectedOption == 'Pilih Parent' ? 0 : parentId
+        }),
+        headers: { 'Content-Type': 'application/json' }
+      });
+
+      const resultJson = await result.json()
+      resultRegister.value = `${resultJson.id}-${resultJson.name}`
+    }
+  })
+
+  //Migrate Parent
+  const btnMigrate = document.getElementById("Migrate");
+  const resultMigrate = document.getElementById("resultMigrate");
+
+  btnMigrate.addEventListener("click", async function () {
+    const selectedMember = batchTrack[2].value
+    const selectedParent = batchParent.value
+
+    if(selectedMember == 'Select Member ID') {
+      resultMigrate.value = 'New Member Id'
+    } else {
+      const memberId = selectedMember.split("-")[2]
+      const parentId = selectedParent.split("-")[2]
+      const result = await fetch('http://localhost:3000/update-parent/'+memberId, {
+        method: 'PUT',
+        body: JSON.stringify({
+          parent_id: selectedParent == 'Pilih Parent' ? 0 : parentId
+        }),
+        headers: { 'Content-Type': 'application/json' }
+      });
+
+      const resultJson = await result.json()
+      resultMigrate.value = `${resultJson.id}-${resultJson.name}`
+    }
+  })
 </script>

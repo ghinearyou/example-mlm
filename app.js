@@ -28,18 +28,18 @@ app.post('/register', (req, res) => {
     const existMember = member.find(({ id }) => id == parent_id)
   
     if(!existMember && parent_id) throw ("Parent not found");
-  
-    member.push({
+    
+    const createdData = {
       id: member.length + 1,
-      member_id: req.body.member_id,
       name: req.body.name,
       first_parent_id: parseInt(parent_id),
       second_parent_id: existMember ? parseInt(existMember.first_parent_id) : 0,
       level: existMember ? parseInt(existMember.level)+1 : 1
-    })
+    }
+    member.push(createdData)
   
     fs.writeFileSync(`${dirModel}/member.txt`, JSON.stringify(member))
-    res.send('Member Created')  
+    res.send(createdData)  
   } catch (err) {
     res.send(err)
   }
@@ -113,6 +113,16 @@ app.get('/hierarchy', (req, res) => {
 app.get('/members', (req, res) => {
   const member = JSON.parse(fs.readFileSync(`${dirModel}/member.txt`, 'utf8'))
   res.send(member)
+})
+
+app.get('/parent/filter/:id', (req, res) => {
+  const member_id = req.params.id
+  const member = JSON.parse(fs.readFileSync(`${dirModel}/member.txt`, 'utf8'))
+  let filtered_result = member.filter(({first_parent_id}) => first_parent_id != member_id);
+  filtered_result = filtered_result.filter(({second_parent_id}) => second_parent_id != member_id);
+  filtered_result = filtered_result.filter(({id}) => id != member_id);
+
+  res.send(filtered_result)
 })
 
 app.get('/', (req, res) => {
